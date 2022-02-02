@@ -1,3 +1,11 @@
+#+AUTHOR: Santiago Pedroza
+#+TITLE: Emacs config
+#+STARTUP: indent 
+#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
+* Lo indispensable
+
+** funcione y sea más rápido.
+#+begin_src emacs-lisp
 ;; El startup viene de Witchmacs
 ;; https://github.com/snackon/Witchmacs/blob/master/init.el
 ;; Make emacs startup faster
@@ -19,7 +27,11 @@
 
 ;; quitar ese sonido irritante
 (setq ring-bell-function 'ignore)
+#+end_src
 
+** Estética por default
+
+#+begin_src emacs-lisp
 ;;(server-start)
 (setq inhibit-startup-message t)
 (scroll-bar-mode -1)	;; Disable visible scrollbar
@@ -37,7 +49,11 @@
 (column-number-mode)
 ;;(global-display-line-numbers-mode t)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+end_src
 
+** Scroll de forma descente en emacs.
+
+#+begin_src emacs-lisp
 ;; scroll one line at a time (less "jumpy" than defaults)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
@@ -45,6 +61,15 @@
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 (global-subword-mode 1);; move cursor by camelCase
 
+#+end_src
+
+** Autocompletado
+*** IDO
+IDO mode, es el método de emacs para completar cosas por default. Quiero usar
+menos paquetes externos, es por eso que quiero usar esto (maybe en el futuro
+vuelvo a cambiar a ivy o vertico). 
+
+#+begin_src emacs-lisp
 ;; (use-package ido
 ;;   :init
 ;;   (ido-mode 1)
@@ -52,7 +77,12 @@
 ;;   (setq ido-enable-flex-matching nil)
 ;;   (setq ido-create-new-buffer 'always)
 ;;   (setq ido-everywhere t))
+#+end_src
 
+También utilizo Icomplete, para que pueda usar M-x también. Quiero también
+usar fido mode, pero por ahora ido mode me quita de problemas.
+*** Icomplete
+#+begin_src emacs-lisp
 ;; (use-package icomplete
 ;;   :init
 ;;   (icomplete-mode 1)
@@ -62,10 +92,18 @@
 ;;   (setq icomplete-in-buffer t))
 ;;  (define-key icomplete-minibuffer-map (kbd "TAB") 'icomplete-forward-completions)
 ;;  (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions)
+#+end_src
 
+Es por eso que ya no necesitamos el buffer súper molesto que sale constantemente al picar Tab.
+
+#+begin_src emacs-lisp
 ;; Quitar el buffer de *Completions*
 (setq completion-auto-help nil)
+#+end_src
 
+*** Electric Pair Mode
+¿Cansado de poner un {,[,",', y después cerrarlos?, ¡ya no más!
+#+begin_src emacs-lisp
 (setq electric-pair-pairs '(
                             (?\{ . ?\})
                             (?\( . ?\))
@@ -75,15 +113,29 @@
 				  (?\¿ . ?\?)
 			          ))
 (electric-pair-mode t)
+#+end_src
+** Resize fácilon
 
+#+begin_src emacs-lisp
 (global-set-key (kbd "s-C-<left>") 'shrink-window-horizontally)
 (global-set-key (kbd "s-C-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "s-C-<down>") 'shrink-window)
 (global-set-key (kbd "s-C-<up>") 'enlarge-window)
+#+end_src
 
+** ZONE MODEEE
+Siente la paz de no saber lo que estás haciendo con Zen mode.
+#+begin_src emacs-lisp
 (require 'zone)
 (zone-when-idle 600)
+#+end_src
 
+** Newsstiker
+
+
+* Paquetes
+** Inicialización de los paquetes.
+#+begin_src emacs-lisp
 ;; Initialize package sources
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -100,7 +152,11 @@
 ;; Instala todos los paquetes si no están en la computadora
 (require 'use-package)
 (setq use-package-always-ensure t)
+#+end_src
 
+** Estética
+
+#+begin_src emacs-lisp
 ;; El startup que hace que se vea lindo
 ;; Es casi el mismo de su página.
 ;; (use-package dashboard
@@ -146,6 +202,12 @@
 (use-package ido-vertical-mode
   :ensure t)
 
+#+end_src
+Quiero quitar para algunos modos las líneas pero no lo eh implementado todavía, lo que quiero es de [[https://www.emacswiki.org/emacs/LineNumbers][aquí.]]
+
+** Funcionales
+
+#+begin_src emacs-lisp
 ;; Te da la posibilidad de ver que onda con cada uno de los comandos
 (use-package which-key
   :init (which-key-mode)
@@ -168,23 +230,40 @@
 (use-package vertico
   :ensure t)
 (vertico-mode)
+#+end_src
+*** PDF
+Para hacer jalar esta cosa la neta si recomiendo revisar las dependencias
+que necesitas. En mi caso particular en Fedora necesitas
+#+begin_src bash
+sudo dnf install make automake autoconf gcc gcc-c++ ImageMagick libpng-devel zlib-devel poppler-glib-devel
+#+end_src
 
+#+begin_src emacs-lisp
 (use-package pdf-tools
   :ensure t)
 ;; quitar los números en los pdf
+#+end_src
+Una vez instalado, necesitas correr el comando =pdf-tools-install= para generar el servidor.
+*** Switch window
+Alguien tuvo la genial idea de ponerle letras a los buffers para que no sea 
+una friega cambiar entre cada uno.
+#+begin_src emacs-lisp
+ (use-package switch-window
+	:ensure t
+	:config
+	(setq switch-window-input-style 'minibuffer)
+	(setq switch-window-increase 4)
+	(setq switch-window-threshold 2)
+	(setq switch-window-shortcut-style 'qwerty)
+	(setq switch-window-qwerty-shortcuts
+		  '("a" "s" "d" "f" "j" "k" "l"))
+	:bind
+	([remap other-window] . switch-window))
 
-(use-package switch-window
-       :ensure t
-       :config
-       (setq switch-window-input-style 'minibuffer)
-       (setq switch-window-increase 4)
-       (setq switch-window-threshold 2)
-       (setq switch-window-shortcut-style 'qwerty)
-       (setq switch-window-qwerty-shortcuts
-		 '("a" "s" "d" "f" "j" "k" "l"))
-       :bind
-       ([remap other-window] . switch-window))
-
+#+end_src
+** Programación
+Esta parte la verdad es que no me gusta tanto, pero pues existe.
+#+begin_src emacs-lisp
 (use-package magit
   :ensure t)
 ;; Te complementa cuando escribes
@@ -202,15 +281,24 @@
 ;;   :ensure t)
 (use-package svelte-mode
   :ensure t)
-
+#+end_src
+Common lisp pa mi compa el stumpWM
+#+begin_src emacs-lisp
 ;; IDE para 
 (use-package slime
   :ensure t)
 
 (setq inferior-lisp-program "sbcl")
 
+#+end_src
+*** Clojure
+#+begin_src emacs-lisp
 (use-package clojure-mode) 
-(use-package cider)
+(use-package cider) 
+#+end_src
+** Org-mode y Org-roam
+
+#+begin_src emacs-lisp
 
 (setq org-src-preserve-indentation nil)
 (setq org-edit-src-content-indentation 0)
@@ -230,7 +318,12 @@
   (define-key org-tree-slide-mode-map (kbd "<left>") 'org-tree-slide-move-previous-tree)
   (define-key org-tree-slide-mode-map (kbd "<right>") 'org-tree-slide-move-next-tree)
   )
+#+end_src
 
+Como vas a compilar tu versión de sqlite para la base de datos recuerda 
+tener instalado =gcc=.
+
+#+begin_src emacs-lisp
 ;; Org Roam porque es más lindo tomar apuntes en esa cosa
 (use-package org-roam
   :ensure t
@@ -246,7 +339,10 @@
          ("C-M-i"    . completion-at-point))
   :config
   (org-roam-setup))
+#+end_src
 
+
+#+begin_src emacs-lisp
 (use-package org-roam-ui
     :after org-roam
 ;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
@@ -258,11 +354,17 @@
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
-
+#+end_src
+*** Org y latex
+#+begin_src emacs-lisp
 (use-package auctex)
 (use-package cdlatex)
 (add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+#+end_src
+** Dired
+- C-x C-q
 
+#+begin_src emacs-lisp
 ;; Me gusta que dired funcione en parte como evil
 (use-package dired
   :ensure nil
@@ -294,6 +396,15 @@
 
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode))
+
+
+#+end_src
+** EXWM
+*** 
+*** Setup Básico
+Es otro paquete pero es básicamente un WM entonces vale la pena tenerlo
+por separado.
+#+begin_src emacs-lisp
 
 ;; (defun efs/exwm-update-class ()
 ;;   (exwm-workspace-rename-buffer exwm-class-name))
@@ -351,9 +462,16 @@
 ;;                     (number-sequence 0 9))))
 
 ;;   (exwm-enable))
+#+end_src
+** Terminal
+#+begin_src emacs-lisp
 
 (use-package eterm-256color
   :hook (term-mode . eterm-256color-mode))
+#+end_src
+* Comandos
+
+#+begin_src emacs-lisp :tangle: ./init.el
 
 (defun line-breaker ()
   "Move a word to next line and be
@@ -372,32 +490,24 @@ at the end of the newly created line"
 (put 'downcase-region 'disabled nil)
 
 ;;(setq compile-command "g++ ")
+#+end_src
+* Variables
+Variables de entorno que utilizo para tener más comodamente.
+#+begin_src emacs-lisp
+ (setq newsticker-url-list
+   '(("Mental Outlaw" "https://www.youtube.com/feeds/videos.xml?channel_id=UC7YOGHUfC1Tb6E4pudI9STA" nil nil nil)
+     ("Hardcore History" "https://feeds.feedburner.com/dancarlin/history?format=xml" nil nil nil)
+     ("Project Euler" "https://projecteuler.net/rss2_euler.xml" nil nil nil)
+     ("Darknet Diaries" "https://feeds.megaphone.fm/darknetdiaries" nil nil nil)
+     ("Sacha Chua" "https://sachachua.com/blog/category/emacs-news/feed/" nil nil nil)
+     ("Prot CodeBlog" "https://protesilaos.com/codelog.xml" nil nil nil)
+     ("Prot Commentary" "https://protesilaos.com/commentary.xml " nil nil nil)
+     ("News Prot" "https://protesilaos.com/news.xml" nil nil nil)
+     ("System Crafters" "https://www.youtube.com/feeds/videos.xml?channel_id=UCAiiOTio8Yu69c3XnR7nQBQ" nil nil nil)
+     ("LWN" "https://lwn.net/headlines/newrss" nil nil nil)
+     ("Ars technica" "http://feeds.arstechnica.com/arstechnica/index/" nil nil nil)
+     ("Hacker News" "https://news.ycombinator.com/rss" nil nil nil)
+     ("DW" " https://rss.dw.com/rdf/rss-en-all" nil nil nil)
+     ("Times" "https://feeds.feedburner.com/time/world" nil nil nil)))
+#+end_src
 
-(setq newsticker-url-list
-  '(("Mental Outlaw" "https://www.youtube.com/feeds/videos.xml?channel_id=UC7YOGHUfC1Tb6E4pudI9STA" nil nil nil)
-    ("Hardcore History" "https://feeds.feedburner.com/dancarlin/history?format=xml" nil nil nil)
-    ("Project Euler" "https://projecteuler.net/rss2_euler.xml" nil nil nil)
-    ("Darknet Diaries" "https://feeds.megaphone.fm/darknetdiaries" nil nil nil)
-    ("Sacha Chua" "https://sachachua.com/blog/category/emacs-news/feed/" nil nil nil)
-    ("Prot CodeBlog" "https://protesilaos.com/codelog.xml" nil nil nil)
-    ("Prot Commentary" "https://protesilaos.com/commentary.xml " nil nil nil)
-    ("News Prot" "https://protesilaos.com/news.xml" nil nil nil)
-    ("System Crafters" "https://www.youtube.com/feeds/videos.xml?channel_id=UCAiiOTio8Yu69c3XnR7nQBQ" nil nil nil)
-    ("LWN" "https://lwn.net/headlines/newrss" nil nil nil)
-    ("Ars technica" "http://feeds.arstechnica.com/arstechnica/index/" nil nil nil)
-    ("Hacker News" "https://news.ycombinator.com/rss" nil nil nil)
-    ("DW" " https://rss.dw.com/rdf/rss-en-all" nil nil nil)
-    ("Times" "https://feeds.feedburner.com/time/world" nil nil nil)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(eterm-256color dired-hide-dotfiles dired-open dired-single all-the-icons-dired cdlatex auctex org-roam-ui yasnippet-snippets which-key visual-fill-column vertico use-package switch-window svelte-mode slime rainbow-delimiters pdf-tools org-tree-slide org-roam modus-themes magit lsp-mode ido-vertical-mode doom-modeline company cider)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
