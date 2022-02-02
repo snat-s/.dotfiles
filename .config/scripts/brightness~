@@ -1,0 +1,3 @@
+xrandr --output DVI-D-0 --brightness 0.7
+xrandr -q | grep ' connected' | head -n 1 | cut -d ' ' -f1
+

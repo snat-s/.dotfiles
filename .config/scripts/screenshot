@@ -1,0 +1,8 @@
+#!/bin/env bash
+directory=$(ls ~/Uni/3/ | dmenu -p "Choose Directory: ")
+directory="/home/sant/Uni/3/"$directory"/assets"
+mkdir -p $directory
+title=$(echo " " | dmenu -p "Nombre del screenshot: ")
+title=$directory"/"$title".png"
+import $title
+herbe "Foto guardada en " $title

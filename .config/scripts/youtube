@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+video=$(echo "1" |dmenu -p "Introduce un video" )
+mpv $video
