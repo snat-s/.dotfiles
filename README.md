@@ -1,4 +1,3 @@
-# dotfile
-This are mi personal .config files.
-I do not remember all the places I have gotten all of my configs, some of them I have made. So if you
-want credit for this configs I'll put your name on them. 
+# .dotfile
+this are my personal dotfiles. use at your own risk.
+also, the scripts are on my m monorepo not in here.
