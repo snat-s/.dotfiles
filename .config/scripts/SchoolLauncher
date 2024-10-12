@@ -1,9 +1,0 @@
-#!/bin/env bash
-CV="https://up-edu-mx.zoom.us/j/91497637651?pwd=N25peXVpTjlsbTFnUkpWcmdWeWlEdz09"
-E="https://up-edu-mx.zoom.us/j/92874341639?pwd=TGR5cDVDQ3NxWmh1TWl6N3hsdTNsUT09"
-MD="://up-edu-mx.zoom.us/j/98279363085?pwd=alllcFU3WDdtRDVuc3VUWFcxZnBaUT09"
-PA="https://up-edu-mx.zoom.us/j/97180719340?pwd=ZE9XTW5oYkMveXRPUzdpNXBlcHFTQT09"
-EDA2_1="https://up-edu-mx.zoom.us/j/93016218522?pwd=QTB1QmtYWVpmZVZSUWNEZkZucFp6dz09"
-EDA2_2="https://up-edu-mx.zoom.us/j/93016218522?pwd=QTB1QmtYWVpmZVZSUWNEZkZucFp6dz09"
-hola=$(echo "E" && echo 'EDA2' && echo 'MD' && echo 'CV' && echo 'PA') 
-echo $hola | dmenu -p "Elige una clase: "

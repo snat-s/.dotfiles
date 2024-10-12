@@ -1,2 +1,0 @@
-#!/bin/env bash
-xrandr --output eDP --auto --same-as DisplayPort-0 --mode 1366x768

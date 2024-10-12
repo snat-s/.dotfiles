@@ -1,3 +1,0 @@
-#!/bin/env bash
-xrandr --output eDP --auto --right-of DisplayPort-0
-

@@ -1,2 +1,0 @@
-#!/bin/bash
-ffmpeg example.mkv -c copy example.mp4

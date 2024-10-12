@@ -1,4 +1,0 @@
-#!bin/bash
-xrandr --output eDP1 --brightness 0.7
-#xrandr -q | grep ' connected' | head -n 1 | cut -d ' ' -f1
-

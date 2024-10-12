@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-amixer -c 1 set Master 100%
