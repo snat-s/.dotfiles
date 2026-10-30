@@ -19,6 +19,8 @@ alias dnfu='sudo dnf upgrade'
 
 # Editor
 alias nv='nvim'
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 
 # Python virtual environment
 alias acvenv='source venv/bin/activate.fish'

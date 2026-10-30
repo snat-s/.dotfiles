@@ -20,7 +20,7 @@ programs=(
     "xorg-server"
     "xorg-xinit"
     "kitty"
-    "alacritty"
+    "ghostty"
     "git"
     "fish"
     "neovim"
@@ -78,13 +78,12 @@ link_config() {
 
 echo "Setting up configuration symlinks..."
 mkdir -p ~/.config/fish
-link_config "$DOTFILES_DIR/fish/config.fish" "$HOME/.config/fish/config.fish"
+link_config "$DOTFILES_DIR/config.fish" "$HOME/.config/fish/config.fish"
 
 mkdir -p ~/.config/nvim
 link_config "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 
-mkdir -p ~/.config/alacritty
-link_config "$DOTFILES_DIR/alacritty/alacritty.toml" "$HOME/.config/alacritty/alacritty.toml"
+link_config "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 
 mkdir -p ~/.w
 #wget https://unsplash.com/photos/UiiHVEyxtyA/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzQ1Njg3OTQ3fA&amp;force=true&amp;w=2400 -O ~/.w/wallpaper.jpg 
@@ -94,7 +93,7 @@ mkdir -p ~/.w
 DWM_DESKTOP_ENTRY="[Desktop Entry]
 Name=DWM
 Comment=Dynamic Window Manager
-Exec=sh -c "feh --bg-fill ~/.w/wallpaper.jpg & slstatus & exec dwm"
+Exec=sh -c \"feh --bg-fill ~/.w/wallpaper.jpg & slstatus & exec dwm\"
 Type=Application
 X-LightDM-DesktopName=DWM
 DesktopNames=DWM"
@@ -107,4 +106,4 @@ mkdir -p /usr/share/wayland-sessions
 echo "$DWM_DESKTOP_ENTRY" | sudo tee /usr/share/wayland-sessions/dwm.desktop > /dev/null
 
 echo "DWM should now appear as a session option in your login manager!"
-echo "Log out and select it from the menu (gear/session icon).
+echo "Log out and select it from the menu (gear/session icon)."

@@ -4,3 +4,5 @@
 .emacs.d/transient
 .emacs.d/.lsp-session-v1
 *.o
+nvim/undodir
+nvim/.claude
